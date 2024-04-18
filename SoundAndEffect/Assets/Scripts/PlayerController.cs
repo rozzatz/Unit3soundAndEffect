@@ -8,9 +8,12 @@ public class PlayerController : MonoBehaviour
     public float jumpForce = 10;
     public float gravityModifier;
     public bool IsOnGround = true;
+    public bool gameOver = false;
+    private Animator PlayerAnim;
     void Start()
     {
         playerRb = GetComponent<Rigidbody>();
+        PlayerAnim = GetComponent<Animator>();
         Physics.gravity *= gravityModifier;
        
     }
@@ -21,12 +24,21 @@ public class PlayerController : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Space) && IsOnGround)
         {
             playerRb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
-            IsOnGround = false; 
+            IsOnGround = false;
+            PlayerAnim.SetTrigger("Jump_trig");
         }
 }
 
     private void OnCollisionEnter(Collision collision)
     {
-        IsOnGround = true;
+       
+        if(collision.gameObject.CompareTag("Ground"))
+        {
+            IsOnGround = true;
+        } else if (collision.gameObject.CompareTag("Obstacle"))
+        {
+            Debug.Log("Game Over");
+            gameOver = true;
+        }
     }
 }
