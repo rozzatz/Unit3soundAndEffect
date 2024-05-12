@@ -26,7 +26,7 @@ public class PlayerController : MonoBehaviour
             playerRb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
        
             IsOnGround = false;
-            PlayerAnim.SetTrigger("Jump_trig");
+            PlayerAnim.SetTrigger("Run2Jump");
         }
 }
 
@@ -40,6 +40,8 @@ public class PlayerController : MonoBehaviour
         {
             Debug.Log("Game Over");
             gameOver = true;
+            PlayerAnim.SetBool("Death_b", true);
+            PlayerAnim.SetInteger("DeathType_int", 1);
         }
     }
 }
